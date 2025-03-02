@@ -8,4 +8,4 @@ engine = create_engine(URL_DATABASE, pool_size= 10, max_overflow= 30)
 
 Sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind= engine)
 
-Baase = declarative_base()
+Base = declarative_base()
