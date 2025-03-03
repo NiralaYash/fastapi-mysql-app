@@ -22,8 +22,23 @@ def get_db():
     finally:
         db.close()
 
-db_dependancy = Annotated[Session,Depends(get_db)]
+db_dependency = Annotated[Session,Depends(get_db)]
 
-@app.post("/songs", status_code=status.HTTP_201_CREATED)
-async def create_song(song: SongBase, db: db_dependancy):
+@app.post("/songs/", status_code=status.HTTP_201_CREATED)
+async def create_song(song: SongBase, db: db_dependency):
     db_song = models.Song(**song.model_dump())
+    db.add(db_song)
+    db.commit()
+
+@app.get("/songs/{song_Id}", status_code= status.HTTP_200_OK)
+async def read_song(song_Id: int, db: db_dependency):
+    song = db.query(models.Song).filter(models.Song.id == song_Id).first()
+    if song is None:
+        HTTPException(status_code=404, detail='Song was not found')
+    return song
+
+@app.post("/artists/", status_code=status.HTTP_201_CREATED)
+async def create_artist(artist: ArtistBase, db: db_dependency):
+    db_artist = models.Artist(**artist.model_dump())
+    db.add(artist)
+    db.commit()
