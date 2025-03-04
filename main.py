@@ -39,7 +39,7 @@ async def read_song(song_Id: int, db: db_dependency):
         HTTPException(status_code=404, detail='Song was not found')
     return song
 
-# TODO Song Update
+## TODO Song Update
 
 @app.delete("/songs/{song_Id}", status_code= status.HTTP_200_OK)
 async def delete_song(song_Id: int, db: db_dependency):
@@ -64,7 +64,7 @@ async def read_artist(artist_Id: int, db: db_dependency):
         raise HTTPException(status_code=404, detail='Artist was not found')
     return artist
 
-# TODO Artist Update
+## TODO Artist Update
 
 @app.delete("/artists/{artist_Id}", status_code= status.HTTP_200_OK)
 async def delete_artist(artist_Id: int, db: db_dependency):
