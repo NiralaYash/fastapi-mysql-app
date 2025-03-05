@@ -39,6 +39,13 @@ async def read_song(song_Id: int, db: db_dependency):
         HTTPException(status_code=404, detail='Song was not found')
     return song
 
+@app.get("/songs/*", status_code= status.HTTP_200_OK)
+async def read_song_all(song: SongBase, db: db_dependency):
+    song_all = db.query.all(models.Song)
+    if song_all is None:
+        raise HTTPException(status_code=404, detail='Found 0 songs. Add a few first!')
+    return song_all
+
 ## TODO Song Update
 
 @app.delete("/songs/{song_Id}", status_code= status.HTTP_200_OK)
